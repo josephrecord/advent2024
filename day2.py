@@ -32,17 +32,6 @@ def checkp1(report):
     else:
         return False
     
-def checkp2(report):
-    diffs = my_diff(report)
-    if check_inc(diffs):
-        return True
-    elif check_dec(diffs):
-        return True
-    else:
-        for lessone in r(report):
-            checkp1(my_diff(lessone))
-
-
 num_safe = 0
 
 with open("input2.txt") as f:
