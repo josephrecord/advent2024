@@ -18,18 +18,44 @@ def check_dec(diffs):
     return False     
 
 
+def r(report):
+    for i in range(len(report)):
+        yield report[:i] + report[i+1:]
+
+
+def checkp1(report):
+    diffs = my_diff(report)
+    if check_inc(diffs):
+        return True
+    elif check_dec(diffs):
+        return True
+    else:
+        return False
+    
+def checkp2(report):
+    diffs = my_diff(report)
+    if check_inc(diffs):
+        return True
+    elif check_dec(diffs):
+        return True
+    else:
+        for lessone in r(report):
+            checkp1(my_diff(lessone))
+
 
 num_safe = 0
 
 with open("input2.txt") as f:
     for line in f:
-        diffs = my_diff([int(x) for x in line.split()])
+        report = [int(x) for x in line.split()]
+        if checkp1(report):
+            num_safe += 1
+        else:
+            for report_variant in r(report):
+                if checkp1(report_variant):
+                    num_safe += 1
+                    break
 
-        if check_inc(diffs):
-            num_safe += 1
-        
-        if check_dec(diffs):
-            num_safe += 1
 
 
 print(num_safe)
